@@ -1,0 +1,65 @@
+# i3status configuration file
+# see "man i3status" for documentation.
+general {
+        colors = true
+        interval = 1
+        color_good = "#A3BE8C"      # Nord green
+        color_degraded = "#EBCB8B"  # Nord yellow
+        color_bad = "#BF616A"       # Nord red
+        markup = "pango"
+}
+order += "volume master"
+order += "wireless *first*"
+order += "ethernet *first*"
+order += "disk /"
+order += "cpu_usage"
+order += "memory"
+order += "tztime local"
+
+volume master {
+        format = "🔊 VOLUME: %volume                                         "
+        format_muted = "🔇 MUTED                                             "
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+wireless *first* {
+        format_up = "📶 %essid (%quality) │"
+        format_down = "📶 Down │"
+}
+
+ethernet *first* {
+        format_up = "🌐 %ip │"
+        format_down = "🌐 Disconnected │"
+}
+
+battery all {
+        format = "│ %status %percentage %remaining │"
+        format_down = "│ No battery │"
+        status_chr = "⚡"
+        status_bat = "🔋"
+        status_unk = "?"
+        status_full = "✓"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        threshold_type = percentage
+        low_threshold = 15
+}
+
+disk "/" {
+        format = "💾 %avail │"
+}
+
+cpu_usage {
+        format = "⚡ %usage │"
+}
+
+memory {
+        format = "🧠 %used/%available │"
+        threshold_degraded = "1G"
+        format_degraded = "🧠 LOW: %available │"
+}
+
+tztime local {
+        format = "📅 %a %Y-%m-%d ⏰ %H:%M"
+}

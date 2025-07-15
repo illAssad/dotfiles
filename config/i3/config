@@ -1,0 +1,297 @@
+# i3 config file (v4)
+
+set $mod Mod4
+set $alt Mod1
+
+# Monitor assignments
+set $left_monitor DP-0.8
+set $right_monitor HDMI-0 
+set $top_monitor DP-4
+set $middle_monitor DP-2.8
+
+# Modern Nord-inspired color palette 
+# Less eye strain and more modern appearance
+set $bg_color           #2E3440
+set $inactive_bg_color  #3B4252
+set $text_color         #ECEFF4
+set $inactive_text_color #D8DEE9
+set $urgent_bg_color    #BF616A
+set $accent_color       #88C0D0
+set $indicator_color    #A3BE8C
+set $border_color       #4C566A
+
+# Font for window titles
+font pango:JetBrains Mono 8
+
+# Start XDG autostart .desktop files using dex
+exec --no-startup-id dex --autostart --environment i3
+
+# xss-lock and nm-applet
+exec --no-startup-id nm-applet
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -i ~/Pictures/wallpaperflare.com_wallpaper.png
+
+# Use pactl to adjust volume in PulseAudio
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Media control keys
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+# Start a terminal with tmux - each press creates a new session
+bindsym $mod+Return exec ghostty -e tmux new-session
+
+# Tmux session management
+bindsym $mod+t exec ghostty -e tmux attach-session -t main 
+bindsym $mod+Shift+Return exec ghostty -e ~/.config/i3/tmux-session-selector.sh
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start dmenu (a program launcher)
+#bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+space exec --no-startup-id ~/.config/rofi/launchers/type-6/launcher.sh
+bindsym $mod+shift+space exec --no-startup-id sudo rofi -show drun 
+
+# Change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Split in horizontal orientation
+bindsym $mod+n split h
+
+# Split in vertical orientation
+bindsym $mod+v split v
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle tiling / floating
+#bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+#bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+bindsym $mod+a focus parent
+
+# Define names for default workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9:Browsers"
+set $wsBp "12:Browsers2"
+set $ws10 "10:Comms"
+set $ws11 "11:Notes"
+set $wsDiscord "13:Discord"
+
+# Switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+bindsym $mod+minus workspace number $ws11
+bindsym $mod+d workspace number $wsDiscord
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+minus move container to workspace number $ws11
+bindsym $mod+Shift+d move container to workspace number $wsDiscord
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Restart i3 inplace
+bindsym $mod+Shift+r restart
+
+# Exit i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes' 'i3-msg exit'"
+
+# Resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar - ONLY on horizontal monitors
+bar {
+        status_command i3status
+        position bottom
+        workspace_min_width 25
+        padding 1px 4px 1px 4px
+        strip_workspace_numbers yes
+        
+        # Modern font
+        font pango:JetBrains Mono 8
+        
+        # Reasonable height
+        height 24
+        
+        # Only show on horizontal monitors
+        output $top_monitor
+        output $middle_monitor
+        
+        # Modern look with rounded corners effect
+        tray_padding 4
+        separator_symbol "·"
+        
+        colors {
+                background $bg_color
+                statusline $text_color
+                separator  $inactive_text_color
+
+                # class            border              background         text
+                focused_workspace  $accent_color       $accent_color      $bg_color
+                active_workspace   $inactive_bg_color  $inactive_bg_color $text_color
+                inactive_workspace $bg_color           $bg_color          $inactive_text_color
+                urgent_workspace   $urgent_bg_color    $urgent_bg_color   $text_color
+                binding_mode       $accent_color       $bg_color          $text_color
+        }
+}
+
+# Window colors
+# class                 border              background         text                 indicator         child_border
+client.focused          $accent_color       $accent_color      $bg_color            $indicator_color  $accent_color
+client.focused_inactive $inactive_bg_color  $inactive_bg_color $inactive_text_color $inactive_bg_color $border_color
+client.unfocused        $inactive_bg_color  $bg_color          $inactive_text_color $bg_color         $border_color
+client.urgent           $urgent_bg_color    $urgent_bg_color   $text_color          $urgent_bg_color  $urgent_bg_color
+client.placeholder      $bg_color           $bg_color          $text_color          $bg_color         $bg_color
+client.background       $bg_color
+
+# Window rules
+for_window [class=Eog|Sxiv|feh|mpv|Vlc|File-roller|Xarchiver] floating enable
+for_window [class=Eog|Sxiv|feh|mpv|Vlc|File-roller|Xarchiver] focus
+for_window [class=".*"] border pixel 2
+hide_edge_borders smart
+gaps inner 6
+gaps outer 2
+smart_gaps on
+
+# Assign workspaces to specific monitors
+workspace $ws1 output $middle_monitor
+workspace $ws2 output $middle_monitor
+workspace $ws3 output $middle_monitor
+workspace $ws4 output $middle_monitor
+workspace $ws5 output $middle_monitor
+workspace $ws6 output $middle_monitor
+workspace $ws7 output $top_monitor
+workspace $ws8 output $top_monitor
+workspace $ws9 output $left_monitor
+workspace $ws10 output $top_monitor
+workspace $ws11 output $right_monitor
+workspace $wsBp output $left_monitor
+workspace $wsDiscord output $top_monitor
+
+# Assign applications to specific workspaces
+assign [class="Brave-browser|Firefox|Chromium"] $ws9
+assign [class="TelegramDesktop"] $ws10
+assign [class="discord"] $wsDiscord
+assign [class="TelegramDesktop"] $ws10
+assign [class="Obsidian"] $ws11
+assign [class="Slack"] $ws10
+
+# Set default orientations for specific workspaces
+for_window [workspace=$ws9] split vertical
+for_window [workspace=$ws11] split vertical
+
+# Arrange Obsidian in workspace 11
+for_window [class="Obsidian"] move to workspace $ws11
+
+# Startup applications
+exec --no-startup-id ~/.screenlayout/default.sh
+#exec --no-startup-id /root/.screenlayout/default.sh
+#exec --no-startup-id discord
+#exec --no-startup-id telegram-desktop
+exec --no-startup-id slack
+exec --no-startup-id obsidian
+exec_always setxkbmap -option caps:super
+
+# Screenshot
+#bindsym Print exec /usr/bin/flameshot
+bindsym Print exec "flameshot gui"
+
+# Lock screen with Windows+L
+bindsym $alt+$mod+l exec ~/.config/rofi/powermenu/type-1/powermenu.sh
+# i3lock -i ~/Pictures/wallpaperflare.com_wallpaper.png --nofork
+
+# Custom keybindings for workspaces
+bindsym $mod+b workspace $ws9 
+bindsym $mod+c workspace $ws10
+bindsym $mod+o workspace $ws11
+bindsym $mod+g workspace $wsBp
+
+# Custom keybindings to move windows to specific workspaces
+bindsym $mod+Shift+b move container to workspace $ws9
+bindsym $mod+Shift+g move container to workspace $wsBp
+bindsym $mod+Shift+o move container to workspace $ws11
+
+# Set wallpaper with feh
+exec_always --no-startup-id feh --bg-fill ~/Pictures/wallpaperflare.com_wallpaper.png
+
+# Add compton/picom for transparency and smooth transitions
+exec_always --no-startup-id picom -b --config ~/.config/picom/picom.conf
