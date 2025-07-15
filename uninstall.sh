@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Basil's Dotfiles Uninstallation Script
+# Dotfiles Uninstallation Script
 # This script removes symbolic links created by the install script
 
 set -e
@@ -64,7 +64,7 @@ restore_backup() {
 
 # Main uninstallation function
 main() {
-    print_info "Starting Basil's Dotfiles Uninstallation"
+    print_info "Starting Dotfiles Uninstallation"
     
     # Remove home directory dotfiles
     print_info "Removing home directory dotfiles..."

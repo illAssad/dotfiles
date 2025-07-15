@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Basil's Dotfiles Installation Script
+# Dotfiles Installation Script
 # This script sets up symbolic links for all configuration files
 
 set -e
@@ -82,7 +82,7 @@ install_fonts() {
 
 # Main installation function
 main() {
-    print_info "Starting Basil's Dotfiles Installation"
+    print_info "Starting Dotfiles Installation"
     print_info "Dotfiles directory: $DOTFILES_DIR"
     
     # Install home directory dotfiles

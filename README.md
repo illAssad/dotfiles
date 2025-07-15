@@ -1,4 +1,4 @@
-# Basil's Dotfiles 🏠
+# Dotfiles 🏠
 
 A carefully curated collection of configuration files for a modern, productive Linux development environment featuring i3 window manager, Fish shell, and a cohesive Nord/Catppuccin theme.
 
