@@ -269,6 +269,7 @@ exec --no-startup-id ~/.screenlayout/default.sh
 #exec --no-startup-id telegram-desktop
 exec --no-startup-id slack
 exec --no-startup-id obsidian
+exec --no-startup-id sh -c "kbdrate -r 9 -d 500"
 exec_always setxkbmap -option caps:super
 
 # Screenshot
@@ -278,6 +279,9 @@ bindsym Print exec "flameshot gui"
 # Lock screen with Windows+L
 bindsym $alt+$mod+l exec ~/.config/rofi/powermenu/type-1/powermenu.sh
 # i3lock -i ~/Pictures/wallpaperflare.com_wallpaper.png --nofork
+
+# System monitor with Ctrl+Shift+Esc
+bindsym ctrl+shift+Escape exec --no-startup-id gnome-system-monitor
 
 # Custom keybindings for workspaces
 bindsym $mod+b workspace $ws9 
